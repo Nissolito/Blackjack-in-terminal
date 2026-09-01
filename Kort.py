@@ -119,5 +119,5 @@ for i in range(len(Suit)):
     for j in range(len(Rank)):
         Kort.append(Rank[j]+Suit[i])
 orderdKort = tuple(Kort)
-print(stortKort(['2H']))
+# print(stortKort(['2H']))
 
