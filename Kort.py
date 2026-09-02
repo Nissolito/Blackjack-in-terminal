@@ -5,9 +5,9 @@ def randomOrdning(k=list()):
     shuffle(k)
     return k
 
-def KollaMägnd(x):
+def KollaMägnd(x=list):
     summa = []
-    for i in range(len(x)):
+    '''for i in range(len(x)):
         match x[i]:
             case '2H'|'2S'|'2D'|'2C':
                     summa += [2]
@@ -31,6 +31,25 @@ def KollaMägnd(x):
                     summa += [11]
             case _:
                     summa +=[0]
+    return summa'''
+
+    summa = []
+    for i in range(len(x)):
+        # y = x[i][:-1]
+        # print(y)
+        try:
+             match int(x[i][:-1]):
+                  case int():
+                       summa += [int(x[i][:-1])]
+        except ValueError:
+            match x[i][:-1]:
+
+                case 'J'|'Q'|'K':
+                        summa += [10]
+                case 'A':
+                        summa += [11]
+                case _:
+                        summa +=[0]
     return summa
 
 def stortKort(valuta=list(), nVisade=1, gomKort=1):
@@ -121,3 +140,4 @@ for i in range(len(Suit)):
 orderdKort = tuple(Kort)
 # print(stortKort(['2H']))
 
+print(KollaMägnd(['2H','KC','10D']))
