@@ -42,11 +42,12 @@ while True:
 		print(stortKort(spelarHand,spelIgång,0))
 		print(f'Spelar hand: {spelarHand}\n värde {KollaMägnd(spelarHand)}, summa: {sum(KollaMägnd(spelarHand))}')
 	else:
-		spelIgångPC = 1
-		while sum(KollaMägnd(dealerHand)) <= 17:
-			spelIgångPC += 1
+		#while sum(KollaMägnd(dealerHand)) <= 17:
+		for i in range(2,6):
+			if sum(KollaMägnd(dealerHand)) >= 17:
+				break
 			dealerHand.append(Kort[0])
 			Kort.pop(0)
-			print(stortKort(dealerHand,spelIgångPC,0))
+			print(stortKort(dealerHand,i,0))
 			print(f'Dealer hand: {dealerHand}\n värde {KollaMägnd(dealerHand)}, summa: {sum(KollaMägnd(dealerHand))}')
-		exit()
+			

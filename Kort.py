@@ -6,8 +6,8 @@ def randomOrdning(k=list()):
     return k
 
 def KollaMägnd(x=list):
-    summa = []
-    '''for i in range(len(x)):
+    '''summa = []
+    for i in range(len(x)):
         match x[i]:
             case '2H'|'2S'|'2D'|'2C':
                     summa += [2]
@@ -61,7 +61,9 @@ def stortKort(valuta=list(), nVisade=1, gomKort=1):
         return 0
     for i in range(nVisade):
         # print(valuta)
-        match valuta[i][len(valuta[i])-1]:
+        # match valuta[i][len(valuta[i])-1]:
+        # print(valuta[i][-1])
+        match valuta[i][-1]:
             case 'H':
                    Valör = '\U00002764'
             case 'S':
