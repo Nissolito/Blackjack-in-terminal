@@ -1,13 +1,13 @@
 from random import *
 # TEST all variables to make sure of working correct # 
-TEST = 0
+TEST = bool(0)
 def randomOrdning(k=list()):
     shuffle(k)
     return k
 
 def KollaMägnd(x=list):
-    summa = []
-    '''for i in range(len(x)):
+    '''summa = []
+    for i in range(len(x)):
         match x[i]:
             case '2H'|'2S'|'2D'|'2C':
                     summa += [2]
@@ -50,6 +50,14 @@ def KollaMägnd(x=list):
                         summa += [11]
                 case _:
                         summa +=[0]
+        # change ace from a value of 11 to 1 if needed
+        if sum(summa) > 21:
+            try:
+                findAce = summa.index(11)
+                summa[findAce] = 1
+                # print(summa[findAce])
+            except ValueError:
+                 pass
     return summa
 
 def stortKort(valuta=list(), nVisade=1, gomKort=1):
@@ -57,33 +65,35 @@ def stortKort(valuta=list(), nVisade=1, gomKort=1):
     storList = []
     storListRem = []
     storString = ''
-    if nVisade ==0:
-        return 0
-    for i in range(nVisade):
-        # print(valuta)
-        match valuta[i][len(valuta[i])-1]:
-            case 'H':
-                   Valör = '\U00002764'
-            case 'S':
-                   Valör = '\U00002664'
-            case 'D':
-                   Valör = '\U00002666'
-            case 'C':
-                   Valör = '\U00002667'
-            case _:
-                   Valör =valuta[i][len(valuta[i])-1]
-        stort.append([f'┌───────────┐',
-                      f'│{valuta[i]}'.ljust(12)+'│',
-                      f'│           │',
-                      f'│           │',
-                      f'│           │',
-                      f'│     {Valör}     │',
-                      f'│           │',
-                      f'│           │',
-                      f'│           │',
-                      f'│'+f'{valuta[i]}│'.rjust(12),
-                      f'└───────────┘'])
-        # print(f'Stort: {stort}')         
+    if nVisade != 0:
+        for i in range(nVisade):
+            # print(valuta)
+            # match valuta[i][len(valuta[i])-1]:
+            # print(valuta[i][-1])
+            match valuta[i][-1]:
+                case 'H':
+                       Valör = '\U00002764'
+                case 'S':
+                       Valör = '\U00002664'
+                case 'D':
+                       Valör = '\U00002666'
+                case 'C':
+                       Valör = '\U00002667'
+                case _:
+                       Valör =valuta[i][len(valuta[i])-1]
+            stort.append([f'┌───────────┐',
+                          f'│{valuta[i]}'.ljust(12)+'│',
+                          f'│           │',
+                          f'│           │',
+                          f'│           │',
+                          f'│     {Valör}     │',
+                          f'│           │',
+                          f'│           │',
+                          f'│           │',
+                          f'│'+f'{valuta[i]}│'.rjust(12),
+                          f'└───────────┘'])
+            # print(f'Stort: {stort}')  
+    # Design for the backside of the cards       
     kortBack = ['\U00002591\U00002591\U00002591\U00002591\U00002591\U00002591\U00002591\U00002591\U00002591\U00002591\U00002591', # '\U000025D9\U000025CF\U000025D9\U000025CF\U000025D9\U000025CF\U000025D9\U000025CF\U000025CF\U000025D9\U000025CF',
                 '\U00002591\U00002592\U00002591\U00002592\U00002591\U00002591\U00002593\U00002592\U00002591\U00002591\U00002591', # '\U000025D9\U000025CF\U000025D9\U000025CF\U000025D9\U000025CF\U000025D9\U000025CF'+'\U0000256D\U0000256E\U000025CF',
                 '\U00002592\U00002593\U00002593\U00002588\U00002592\U00002592\U00002591\U00002593\U00002592\U00002591\U00002593',# '\U000025CF\U000025D9\U000025CF\U000025D9\U000025CF\U000025D9\U000025CF\U000025D9'+'\U0000256F\U00002570\U000025D9',
@@ -93,6 +103,7 @@ def stortKort(valuta=list(), nVisade=1, gomKort=1):
                 '\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594',
                 '\U00002594\U00002594\U00002594\U0001FBB2\U0001FBB3\U0001FBB2\U0001FBB3\U00002594\U00002594\U00002594\U00002594',
                 '\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594']
+    # creates hidden cards from the design above
     if gomKort != 0:
         for i in range(gomKort):
             stort.append([f'┌───────────┐',
@@ -121,7 +132,6 @@ def stortKort(valuta=list(), nVisade=1, gomKort=1):
             storString += ''.join(storList[i][j])
         storString += '\n'
     if TEST:
-        
         print(f"Variable stort: \n{stort}")
         print(f"Variable storList: \n{storList}")
         print(f"Variable kortBack: \n{kortBack}")
@@ -130,14 +140,33 @@ def stortKort(valuta=list(), nVisade=1, gomKort=1):
         print(f"Variable storString: \n{storString}")
     return storString
 
-Kort = []
-# Suit = ['\U00002764','\U00002660','\U00002666','\U00002663']
-Suit = ['H','S','D','C']
-Rank = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
-for i in range(len(Suit)):
-    for j in range(len(Rank)):
-        Kort.append(Rank[j]+Suit[i])
-orderdKort = tuple(Kort)
-# print(stortKort(['2H']))
+def Results(DealerHand=list(),PlayerHand=list()):
+    dealerValue = sum(KollaMägnd(DealerHand))
+    spelarValue = sum(KollaMägnd(PlayerHand))
+    if dealerValue == spelarValue:
+        print("Oavgjort. Push")
+    elif dealerValue <= 21 and spelarValue > 21:
+        print("Datorn vann!")
+    elif spelarValue <= 21 and dealerValue >21:
+        print("Du vann!")
+    elif dealerValue > spelarValue:
+        print("Datorn vann!")
+    else:
+        print("Du vann!")
 
-print(KollaMägnd(['2H','KC','10D']))
+def deckMaker():
+    Kort = []
+    # Suit = ['\U00002764','\U00002660','\U00002666','\U00002663']
+    Suit = ['H','S','D','C']
+    Rank = ['2','3','4','5','6','7','8','9','10','J','Q','K','A']
+    for i in range(len(Suit)):
+        for j in range(len(Rank)):
+            Kort.append(Rank[j]+Suit[i])
+    orderedKort = tuple(Kort)
+    return Kort, orderedKort
+Kort = deckMaker()[0]
+ordereddeck = deckMaker()[0]
+if TEST:
+    testKort = ['2H','10C','AD']
+    print(f"stortKort ({testKort}): \n{stortKort(testKort,len(testKort))}")
+    print(f"KollaMägnd ({testKort}): \n{KollaMägnd(testKort)}")
