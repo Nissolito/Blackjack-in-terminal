@@ -139,6 +139,21 @@ def stortKort(valuta=list(), nVisade=1, gomKort=1):
         print(f"Variable storList: \n{storList}")
         print(f"Variable storString: \n{storString}")
     return storString
+
+def Results(DealerHand=list(),PlayerHand=list()):
+    dealerValue = sum(KollaMägnd(DealerHand))
+    spelarValue = sum(KollaMägnd(PlayerHand))
+    if dealerValue == spelarValue:
+        print("Oavgjort. Push")
+    elif dealerValue <= 21 and spelarValue > 21:
+        print("Datorn vann!")
+    elif spelarValue <= 21 and dealerValue >21:
+        print("Du vann!")
+    elif dealerValue > spelarValue:
+        print("Datorn vann!")
+    else:
+        print("Du vann!")
+
 def deckMaker():
     Kort = []
     # Suit = ['\U00002764','\U00002660','\U00002666','\U00002663']
