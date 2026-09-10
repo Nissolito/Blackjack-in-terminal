@@ -39,8 +39,11 @@ while True:
 		if sum(KollaMägnd(spelarHand)) <=21 and spelIgång<3:
 			for i in range(3,6):
 				spelIgång = i
+				if sum(KollaMägnd(spelarHand)) > 21:
+					sleep(1.5)
+					break
 				a = input(hitStand)
-				if a != "1" or sum(KollaMägnd(spelarHand)) > 21:
+				if a != "1":
 					break
 				print('\n'*20)
 				spelarHand.append(Kort[0])
@@ -53,7 +56,7 @@ while True:
 		else:
 			#while sum(KollaMägnd(dealerHand)) <= 17:
 			for i in range(2,6):
-				sleep(1)
+				sleep(1.5)
 				if sum(KollaMägnd(dealerHand)) >= 17:
 					break
 				print('\n'*20)
@@ -66,5 +69,6 @@ while True:
 				print(f'Spelar hand: {spelarHand}\n värde {KollaMägnd(spelarHand)}, summa: {sum(KollaMägnd(spelarHand))}')
 			break
 	Results(dealerHand,spelarHand)
+
 	if input("Play again?(Y/n)?: ").capitalize() == "N":
 		break

@@ -103,7 +103,7 @@ def stortKort(valuta=list(), nVisade=1, gomKort=1):
                 '\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594',
                 '\U00002594\U00002594\U00002594\U0001FBB2\U0001FBB3\U0001FBB2\U0001FBB3\U00002594\U00002594\U00002594\U00002594',
                 '\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594\U00002594']
-    # creates hidden cards from the design above
+# creates hidden cards from the design above
     if gomKort != 0:
         for i in range(gomKort):
             stort.append([f'┌───────────┐',
