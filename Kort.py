@@ -1,4 +1,5 @@
 from random import *
+from time import sleep
 # TEST all variables to make sure of working correct # 
 TEST = bool(0)
 def randomOrdning(k=list()):
@@ -137,38 +138,53 @@ def Results(PlayerHand=list(),DealerHand = list):
     else:
         print("Du vann!")
 
-def playerHitorstand(playerCard = list,dealerCard = list,MainorSplit = bool, splitHand = list):
+def playerHitorstand(playerCard = list,dealerCard = list, splitHand = list, MainorSplit = bool):
     '''Gives the player the choice to hit, stand, or if the hands two first cards of the same value, be able to split.'''
-    MainorSplit = 1
     for i in range(1,5):
         h_s_s = "1.Hit, 2. Stand: "
         if sum(KollaMägnd(playerCard)) > 21:
             return
         if i == 1:
             playerCard.append(Kort[0])
-            Kort.pop()
+            Kort.pop(0)
         else:
             while True:
                 # print(playerCard[0] +playerCard[1])
-                if len(playerCard)== 2 and playerCard[0][:-1] == playerCard[1][:-1]:
+                if len(playerCard)== 2 and playerCard[0][:-1] == playerCard[1][:-1] and MainorSplit:
                      h_s_s = "1.Hit, 2. Stand, 3. Split: "
                 answer = input(h_s_s)
                 if answer == "1":
                     playerCard.append(Kort[0])
-                    Kort.pop()
+                    Kort.pop(0)
                     break
                 elif answer == "2":
                     return
-                elif answer == "3" and (len(playerCard)== 2 and playerCard[0][:-1] == playerCard[1][:-1]):
+                elif answer == "3" and (len(playerCard)== 2 and playerCard[0][:-1] == playerCard[1][:-1]) and MainorSplit:
                     splitHand.append(playerCard[1])
                     playerCard.pop(1)
                     playerCard.append(Kort[0])
-                    Kort.pop()
+                    Kort.pop(0)
                     break
+        print('\n'*20)
         print(stortKort(dealerCard,1,1))
         print(f'Dealer hand: {dealerCard}\n värde {KollaMägnd(dealerCard)}, summa: {sum(KollaMägnd(dealerCard))}')
         print(stortKort(playerCard,i+1,0))
         print(f'Spelar hand: {playerCard}\n värde {KollaMägnd(playerCard)}, summa: {sum(KollaMägnd(playerCard))}')
+def DealerTurn(dealerCards = list, playerCards = list, splitCards = list):
+     for i in range(1,5):
+        if sum(KollaMägnd(dealerCards)) >= 17:
+            break
+        dealerCards.append(Kort[0])
+        Kort.pop(0)
+        print('\n'*20)
+        print(stortKort(dealerCards,i+1,0))
+        print(f'Dealer hand: {dealerCards}\n värde {KollaMägnd(dealerCards)}, summa: {sum(KollaMägnd(dealerCards))}')
+        print(stortKort(playerCards,len(playerCards),0))
+        print(f'Spelar hand: {playerCards}\n värde {KollaMägnd(playerCards)}, summa: {sum(KollaMägnd(playerCards))}')
+        if len(splitCards) != 0:
+            print(stortKort(splitCards,len(splitCards),0))
+            print(f'Spelar hand: {splitCards}\n värde {KollaMägnd(splitCards)}, summa: {sum(KollaMägnd(splitCards))}')
+        sleep(0.5)
 
 def deckMaker():
     '''Creates a deck out of four suits and 13 ranks.'''

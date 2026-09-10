@@ -16,7 +16,10 @@ while True:
     print(stortKort(spelarHand,1,1))
     print(f'Spelar hand: {spelarHand}\n värde {KollaMägnd(spelarHand)}, summa: {sum(KollaMägnd(spelarHand))}')
 
-    playerHitorstand(spelarHand,dealerHand, 0,splitHand)
+    playerHitorstand(spelarHand,dealerHand,splitHand,0)
+    if len(splitHand) != 0:
+        playerHitorstand(splitHand, dealerHand, [], 1)
+    DealerTurn(dealerHand, spelarHand, splitHand)
     Results(spelarHand,dealerHand)
     if input("Play again?(Y/n):") == "n":
         break
