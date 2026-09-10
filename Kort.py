@@ -2,37 +2,14 @@ from random import *
 # TEST all variables to make sure of working correct # 
 TEST = bool(0)
 def randomOrdning(k=list()):
+    '''Literally just a shuffle function. Why does this exist?'''
     shuffle(k)
     return k
 
 def KollaMägnd(x=list):
-    '''summa = []
-    for i in range(len(x)):
-        match x[i]:
-            case '2H'|'2S'|'2D'|'2C':
-                    summa += [2]
-            case '3H'|'3S'|'3D'|'3C':
-                    summa += [3]
-            case '4H'|'4S'|'4D'|'4C':
-                    summa += [4]
-            case '5H'|'5S'|'5D'|'5C':
-                    summa += [5]
-            case '6H'|'6S'|'6D'|'6C':
-                    summa += [6]
-            case '7H'|'7S'|'7D'|'7C':
-                    summa += [7]
-            case '8H'|'8S'|'8D'|'8C':
-                    summa += [8]
-            case '9H'|'9S'|'9D'|'9C':
-                    summa += [9]
-            case '10H'|'10S'|'10D'|'10C'|'JH'|'JS'|'JD'|'JC'|'QH'|'QS'|'QD'|'QC'|'KH'|'KS'|'KD'|'KC':
-                    summa += [10]
-            case 'AH'|'AS'|'AD'|'AC':
-                    summa += [11]
-            case _:
-                    summa +=[0]
-    return summa'''
-
+    '''Makes a list with the values of all cards in the given list(hand)
+    if sum of cards exceed a value of 21 and there is at least one ace on
+    hand, then an ace will have its value changed from 11 to 1.'''
     summa = []
     for i in range(len(x)):
         # y = x[i][:-1]
@@ -61,6 +38,9 @@ def KollaMägnd(x=list):
     return summa
 
 def stortKort(valuta=list(), nVisade=1, gomKort=1):
+    '''Creates big cards for display by stitching together lists. input
+    the list of cards to make big cards, the amount of showncards shown
+    from left to right, and how many hidden cards should be shown'''
     stort = []
     storList = []
     storListRem = []
@@ -124,6 +104,8 @@ def stortKort(valuta=list(), nVisade=1, gomKort=1):
             # print(f'storListRem{j}{storListRem}')
         # print("XXXXXXXXXXXXXXXXXXXXXXXX")   
         storList.append(storListRem) # Sätter ihopp alla kortremsor i samma lista
+        if TEST:
+             print(f"Variable storListRem: \n{storListRem}")
         storListRem = []
         # storList.append(stort[0][j] + stort[1][j])
     # print(f'Test storList\n{storList} och Len: {len(storList)}')
@@ -135,12 +117,13 @@ def stortKort(valuta=list(), nVisade=1, gomKort=1):
         print(f"Variable stort: \n{stort}")
         print(f"Variable storList: \n{storList}")
         print(f"Variable kortBack: \n{kortBack}")
-        print(f"Variable storListRem: \n{storListRem}")
         print(f"Variable storList: \n{storList}")
         print(f"Variable storString: \n{storString}")
     return storString
 
-def Results(DealerHand=list(),PlayerHand=list()):
+def Results(PlayerHand=list(),DealerHand = list):
+    '''Compares two hands against eachother, meant to be with variables
+    for the computers/dealers hand and then one of the players hands'''
     dealerValue = sum(KollaMägnd(DealerHand))
     spelarValue = sum(KollaMägnd(PlayerHand))
     if dealerValue == spelarValue:
@@ -154,7 +137,41 @@ def Results(DealerHand=list(),PlayerHand=list()):
     else:
         print("Du vann!")
 
+def playerHitorstand(playerCard = list,dealerCard = list,MainorSplit = bool, splitHand = list):
+    '''Gives the player the choice to hit, stand, or if the hands two first cards of the same value, be able to split.'''
+    MainorSplit = 1
+    for i in range(1,5):
+        h_s_s = "1.Hit, 2. Stand: "
+        if sum(KollaMägnd(playerCard)) > 21:
+            return
+        if i == 1:
+            playerCard.append(Kort[0])
+            Kort.pop()
+        else:
+            while True:
+                # print(playerCard[0] +playerCard[1])
+                if len(playerCard)== 2 and playerCard[0][:-1] == playerCard[1][:-1]:
+                     h_s_s = "1.Hit, 2. Stand, 3. Split: "
+                answer = input(h_s_s)
+                if answer == "1":
+                    playerCard.append(Kort[0])
+                    Kort.pop()
+                    break
+                elif answer == "2":
+                    return
+                elif answer == "3" and (len(playerCard)== 2 and playerCard[0][:-1] == playerCard[1][:-1]):
+                    splitHand.append(playerCard[1])
+                    playerCard.pop(1)
+                    playerCard.append(Kort[0])
+                    Kort.pop()
+                    break
+        print(stortKort(dealerCard,1,1))
+        print(f'Dealer hand: {dealerCard}\n värde {KollaMägnd(dealerCard)}, summa: {sum(KollaMägnd(dealerCard))}')
+        print(stortKort(playerCard,i+1,0))
+        print(f'Spelar hand: {playerCard}\n värde {KollaMägnd(playerCard)}, summa: {sum(KollaMägnd(playerCard))}')
+
 def deckMaker():
+    '''Creates a deck out of four suits and 13 ranks.'''
     Kort = []
     # Suit = ['\U00002764','\U00002660','\U00002666','\U00002663']
     Suit = ['H','S','D','C']
@@ -165,8 +182,11 @@ def deckMaker():
     orderedKort = tuple(Kort)
     return Kort, orderedKort
 Kort = deckMaker()[0]
-ordereddeck = deckMaker()[0]
-if TEST:
-    testKort = ['2H','10C','AD']
+ordereddeck = deckMaker()[1]
+
+if __name__ == "__main__":
+    TEST = bool(0)
+    print(stortKort(ordereddeck,13,0))
+    testKort = ['2H','10C','AD','AD','AS']
     print(f"stortKort ({testKort}): \n{stortKort(testKort,len(testKort))}")
     print(f"KollaMägnd ({testKort}): \n{KollaMägnd(testKort)}")
